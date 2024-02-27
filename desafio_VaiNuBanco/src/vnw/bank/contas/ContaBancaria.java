@@ -21,4 +21,5 @@ public interface ContaBancaria {
 	void setSenha(String senha);
 	void setLimiteDeCredito(double limiteDeCredito);
 	void setbDay(int bDay);
+	String toString();
 }

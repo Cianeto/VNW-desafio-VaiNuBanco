@@ -40,6 +40,13 @@ public class Corrente extends Conta implements ContaBancaria {
 
 	@Override
 	public void setbDay(int bDay) {}
+
+	@Override
+	public String toString() {
+		return "Conta Corrente " + super.toString() + ", limiteDeCredito = " + limiteDeCredito + "]";
+	}
+	
+	
 	
 	
 	

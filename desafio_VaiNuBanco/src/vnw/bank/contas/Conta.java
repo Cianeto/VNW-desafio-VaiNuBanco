@@ -58,6 +58,12 @@ public abstract class Conta {
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
+
+	@Override
+	public String toString() {
+		return "[id = " + id + ", agencia = " + agencia + ", titular = " + titular + ", cpf = " + cpf + ", senha = " + senha
+				+ ", saldo = " + saldo;
+	}
 	
 	
 }

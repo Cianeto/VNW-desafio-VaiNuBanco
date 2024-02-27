@@ -41,4 +41,9 @@ public class Poupanca extends Conta implements ContaBancaria {
 	@Override
 	public void setLimiteDeCredito(double limiteDeCredito) {}
 	
+	@Override
+	public String toString() {
+		return "Conta Poupanca " + super.toString() + ", aniversario = " + bDay + "]";
+	}
+	
 }

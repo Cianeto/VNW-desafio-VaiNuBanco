@@ -11,32 +11,34 @@ public class Menu {
 		int cont = 1; //A cada conta criada o contador aumenta em 1.
 		int opt;
 		int id;
+		boolean loop1 = true;
+		ContaBancaria conta = null;
+		String senha;
 		
 		ContaBancaria corr = new Corrente();
-		ContaBancaria poup = new Corrente();
+		ContaBancaria poup = new Poupanca();
 		
 		Scanner input = new Scanner(System.in);
+		
 		HashSet<ContaBancaria> contas = new HashSet<ContaBancaria>();
 		
 		System.out.println("Bem-vindo ao Vai Nu Banco!\n");
 		
 		while(true)	{
 			try {
-				System.out.println("Opcao [1] - Cadastrar nova conta\nOpcao [2] - Acessar conta\nOpcao [0] - Encerrar programa");
-				opt = input.nextInt();
+				System.out.println("Opcao [1] - Cadastrar nova conta\nOpcao [2] - Acessar conta\nOpcao [3] - Editar conta"
+						+ "\nOpcao [4] - Remover conta\nOpcao [5] - Visualizar conta"
+						+ "\nOpcao [6] - Visualizar todas as contas\nOpcao [0] - Encerrar programa");
 				
-				if(opt < 0 || opt > 6) 
-					throw new Exception("Opcao inputada nao existe");
+				opt = input.nextInt();
+				input.nextLine();
 				
 				switch(opt) {
 				case 1: //Cadastrar Conta
 					
 					System.out.println("Opcao [1] - Cadastrar Conta Corrente\nOpcao [2] - Cadastrar Conta Poupanca\nOpcao [0] - Voltar");
 					opt = input.nextInt();
-					
-					if(opt < 0 || opt > 2)
-						throw new Exception("Opcao inputada nao existe"); 
-					
+					input.nextLine();
 					
 					switch(opt) {
 					case 1: //Cadastrar Conta Corrente
@@ -49,29 +51,32 @@ public class Menu {
 						cont++;
 						
 						break;
+					default:
+						throw new Exception("Opcao inputada nao existe");
 					}
 					break;
 					
 				case 2: //Acessar Conta
 					
-					boolean loop1 = true;
-					boolean idLoop = true;
-					ContaBancaria conta = null;
-					String senha;
+					loop1 = true;
+					conta = null;
 					
 					while(loop1) {
 						try {
-							while(idLoop) {
+							while(true) {
 								System.out.println("Digite o numero id da conta (0 -> Voltar): ");
 								id = input.nextInt();
+								input.nextLine();
 								
 								if(id == 0) {
 									loop1 = false;
 								 	break;
 								}
 								
-								idLoop = false;
 								conta = menuBuscarConta(id, contas);
+								
+								if(conta != null)
+									break;
 							}
 							if(loop1 == false)
 								break;
@@ -83,9 +88,6 @@ public class Menu {
 								while(true) {
 									System.out.println("Opcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
-									
-									if(opt < 0 || opt > 3) 
-										throw new Exception("Opcao inputada nao existe");
 									
 									switch(opt) {
 									case 1: //Sacar
@@ -102,15 +104,15 @@ public class Menu {
 										break;
 									case 0:
 										//return; quando ficar dentro de um metodo fara sentido
+									default:
+										throw new Exception("Opcao inputada nao existe");
 									}
 								}
 							} else if(conta.getSenha() == senha && conta.getAgencia() == "2223-2") {
 								while(true) {
 									System.out.println("Opcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
-									
-									if(opt < 0 || opt > 3) 
-										throw new Exception("Opcao inputada nao existe");
+									input.nextLine();
 									
 									switch(opt) {
 									case 1: //Sacar
@@ -127,6 +129,8 @@ public class Menu {
 										break;
 									case 0:
 										//return; quando ficar dentro de um metodo fara sentido
+									default:
+										throw new Exception("Opcao inputada nao existe");
 									}
 								}
 							}
@@ -142,13 +146,14 @@ public class Menu {
 					
 					while(true) {
 						try {
-							System.out.println("Digite o numero id da conta (0 -> Voltar): ");
+							System.out.println("(Editar)Digite o numero id da conta (0 -> Voltar): ");
 							id = input.nextInt();
+							input.nextLine();
 							
 							if(id == 0)
 								break;
 							
-							if(menuEditarConta(menuBuscarConta(id, contas)) != false) 
+							if(menuEditarConta(menuBuscarConta(id, contas), contas) != false) 
 								break;
 							
 							throw new Exception("Conta nao encontrada");
@@ -159,30 +164,69 @@ public class Menu {
 					break;
 				case 4: //Excluir Conta
 					
+					while(true) {
+						try {
+							System.out.println("(Remover)Digite o numero id da conta (0 -> Voltar): ");
+							id = input.nextInt();
+							input.nextLine();
+							
+							if(id == 0)
+								break;
+							
+							if(menuRemoverConta(menuBuscarConta(id, contas), contas) != false) 
+								break;
+							
+							throw new Exception("Conta nao encontrada");
+						} catch(Exception e) {System.err.println(e.getMessage());}
+					}
+					
 					break;
 				case 5: //Buscar Conta pelo Identificador (id||cont) e visualizar
 					
+					conta = null;
+					
+					while(true) {
+						try {
+							System.out.println("(Visualizar)Digite o numero id da conta (0 -> Voltar): ");
+							id = input.nextInt();
+							input.nextLine();
+							
+							if(id == 0)
+								break;
+							
+							conta = menuBuscarConta(id, contas);
+							
+							if(conta != null) {
+								System.out.println("\n"+conta.toString()+"\n");
+								break;
+							}
+							throw new Exception("Conta nao encontrada");
+						} catch(Exception e) {System.err.println(e.getMessage());}
+					}
+					
 					break;
 				case 6: //Visualizar Todas Contas
-					
+					System.out.println();
+					contas.forEach(System.out::println);
+					System.out.println();
 					break;
 				case 0: //Encerrar Programa
 					input.close();
 					return;
+				default:
+					throw new Exception("Opcao inputada nao existe");
 				}
-				
-					
-				
-			} catch(Exception e) {System.err.println(e.getMessage());}
+			} catch(Exception e) {e.printStackTrace();}
 		}
 	}
-	
+
 	public static void cadastrarConta(int cont, String agencia, HashSet<ContaBancaria> contas) {
 		String titular;
 		String cpf;
 		String senha;
 		double limiteDC;
 		int bDay;
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		
 		System.out.println("Digite o nome do titular: ");
@@ -218,9 +262,10 @@ public class Menu {
 				try {
 					System.out.println("Digite o limite de credito desta conta corrente: ");
 					limiteDC = input.nextDouble();
+					input.nextLine();
 					
 					contas.add(new Corrente(cont, agencia, titular, cpf, senha, 0, limiteDC));
-				
+					break;
 				} catch(Exception e) {e.printStackTrace();}
 			}
 		} else if(agencia == "2223-2") {
@@ -228,6 +273,7 @@ public class Menu {
 				try {
 					System.out.println("Digite o aniversario desta conta poupanca: ");
 					bDay = input.nextInt();
+					input.nextLine();
 					
 					if(bDay < 1 || bDay > 31) {
 						throw new Exception("Data de aniversario invalida (tem que ser entre 1 e 31)");
@@ -235,33 +281,25 @@ public class Menu {
 						bDay = 1;
 					}
 					
-					contas.add(new Corrente(cont, agencia, titular, cpf, senha, 0, bDay));
-				
+					contas.add(new Poupanca(cont, agencia, titular, cpf, senha, 0, bDay));
+					break;
 				} catch(Exception e) {System.err.println(e.getMessage());}
 			}
 		}
-		
-		cont++;
-		input.close();
+		System.out.println("shit");
 	}
 	
 	private static ContaBancaria menuBuscarConta(int id, HashSet<ContaBancaria> contas) {
-		
-		ContaBancaria conta = null;
 		
 		try {
 			for(ContaBancaria account : contas) {
 				if(account.getId() == id) {
 					if(account.getAgencia() == "2223-1") {
-						conta = new Corrente(account.getId(), account.getAgencia(), account.getTitular(),
-								account.getCpf(), account.getSenha(), account.getSaldo(), account.getLimiteDeCredito());
+						return account;
 						
-						return conta;
 					} else if(account.getAgencia() == "2223-2") {
-						conta = new Poupanca(account.getId(), account.getAgencia(), account.getTitular(),
-								account.getCpf(), account.getSenha(), account.getSaldo(), account.getbDay());
+						return account;
 						
-						return conta;
 					} else {
 						throw new Exception("Agencia da conta nao encontrada");
 					}
@@ -302,7 +340,8 @@ public class Menu {
 		return true;
 		
 	}
-	private static boolean menuEditarConta(ContaBancaria conta) {
+	
+	private static boolean menuEditarConta(ContaBancaria conta, HashSet<ContaBancaria> contas) {
 		if(conta == null)
 			return false;
 		
@@ -310,29 +349,29 @@ public class Menu {
 		String var1;
 		double var2;
 		int var3;
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		
 		while(true) {
 			try {
 				if(conta.getAgencia() == "2223-1") {
-					System.out.println("Opcao [1] Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Limite de Credito\nOpcao [0] - Voltar");
+					System.out.println("Opcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Limite de Credito\nOpcao [0] - Voltar");
 				} else if(conta.getAgencia() == "2223-2") {
-					System.out.println("Opcao [1] Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Aniversario\nOpcao [0] - Voltar");
+					System.out.println("Opcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Aniversario\nOpcao [0] - Voltar");
 				} else {
 					System.err.println("Agencia nao encontrada?");
 					return false;
 				}
 				opt = input.nextInt();
 				
-				if(opt < 0 || opt > 6) 
-					throw new Exception("Opcao inputada nao existe");
-				
 				switch(opt) {
 				case 1:
 					System.out.println("Redigite o nome: ");
 					var1 = input.nextLine();
 					
+					contas.remove(conta);
 					conta.setTitular(var1);
+					contas.add(conta);
 					
 					break;
 				case 2:
@@ -342,7 +381,9 @@ public class Menu {
 					if(!verificarCPF(var1)) 
 						throw new Exception("CPF precisa ser digitado no formato -> 000.000.000-00");
 					
+					contas.remove(conta);
 					conta.setCpf(var1);
+					contas.add(conta);
 					
 					break;
 				case 3:
@@ -352,7 +393,9 @@ public class Menu {
 					if(var1.length() < 4) 
 						throw new Exception("Senha possui menos do que 4 caracteres");
 					
+					contas.remove(conta);
 					conta.setSenha(var1);
+					contas.add(conta);
 					
 					break;
 				case 4:
@@ -361,13 +404,17 @@ public class Menu {
 						System.out.println("Redigite o limite de credito: ");
 						var2 = input.nextDouble();
 						
+						contas.remove(conta);
 						conta.setLimiteDeCredito(var2);
+						contas.add(conta);
 						
 					} else if(conta.getAgencia() == "2223-2") {
 						System.out.println("Redigite a Data de Aniversario: ");
 						var3 = input.nextInt();
 						
+						contas.remove(conta);
 						conta.setbDay(var3);
+						contas.add(conta);
 						
 					} else {
 						System.err.println("Agencia nao encontrada??");
@@ -375,13 +422,19 @@ public class Menu {
 					}
 					break;
 				case 0:
-					input.close();
 					return false;
+				default:
+					throw new Exception("Opcao inputada nao existe");
 				}
 				
 			} catch(Exception e) {System.err.println(e.getMessage());}
 		}
-		
-		
 	}
+	
+	private static boolean menuRemoverConta(ContaBancaria conta, HashSet<ContaBancaria> contas) {
+		if(conta == null)
+			return false;
+		return contas.remove(conta);
+	}
+	
 }
