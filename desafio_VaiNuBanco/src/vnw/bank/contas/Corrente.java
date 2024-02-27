@@ -43,11 +43,7 @@ public class Corrente extends Conta implements ContaBancaria {
 
 	@Override
 	public String toString() {
-		return "Conta Corrente " + super.toString() + ", limiteDeCredito = " + limiteDeCredito + "]";
+		return "Conta Corrente " + super.toString() + " / limiteDeCredito = " + twoDecimalsRounder(limiteDeCredito) + "}";
 	}
-	
-	
-	
-	
 	
 }

@@ -36,7 +36,7 @@ public class Menu {
 				switch(opt) {
 				case 1: //Cadastrar Conta
 					
-					System.out.println("Opcao [1] - Cadastrar Conta Corrente\nOpcao [2] - Cadastrar Conta Poupanca\nOpcao [0] - Voltar");
+					System.out.println("\nOpcao [1] - Cadastrar Conta Corrente\nOpcao [2] - Cadastrar Conta Poupanca\nOpcao [0] - Voltar");
 					opt = input.nextInt();
 					input.nextLine();
 					
@@ -61,10 +61,10 @@ public class Menu {
 					loop1 = true;
 					conta = null;
 					
-					while(loop1) {
+					while(true) {
 						try {
 							while(true) {
-								System.out.println("Digite o numero id da conta (0 -> Voltar): ");
+								System.out.println("\nDigite o numero id da conta (0 -> Voltar): ");
 								id = input.nextInt();
 								input.nextLine();
 								
@@ -81,13 +81,14 @@ public class Menu {
 							if(loop1 == false)
 								break;
 							
-							System.out.println("Digite o numero senha da conta: ");
+							System.out.println("\nDigite o numero senha da conta: ");
 							senha = input.nextLine();
 							
-							if(conta.getSenha() == senha && conta.getAgencia() == "2223-1") {
+							if(conta.getSenha().equals(senha) && conta.getAgencia().equals("2223-1")) {
 								while(true) {
-									System.out.println("Opcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
+									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
+									input.nextLine();
 									
 									switch(opt) {
 									case 1: //Sacar
@@ -108,9 +109,9 @@ public class Menu {
 										throw new Exception("Opcao inputada nao existe");
 									}
 								}
-							} else if(conta.getSenha() == senha && conta.getAgencia() == "2223-2") {
+							} else if(conta.getSenha().equals(senha) && conta.getAgencia().equals("2223-2")) {
 								while(true) {
-									System.out.println("Opcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
+									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
 									input.nextLine();
 									
@@ -146,7 +147,7 @@ public class Menu {
 					
 					while(true) {
 						try {
-							System.out.println("(Editar)Digite o numero id da conta (0 -> Voltar): ");
+							System.out.println("\n(Editar)Digite o numero id da conta (0 -> Voltar): ");
 							id = input.nextInt();
 							input.nextLine();
 							
@@ -166,7 +167,7 @@ public class Menu {
 					
 					while(true) {
 						try {
-							System.out.println("(Remover)Digite o numero id da conta (0 -> Voltar): ");
+							System.out.println("\n(Remover)Digite o numero id da conta (0 -> Voltar): ");
 							id = input.nextInt();
 							input.nextLine();
 							
@@ -187,7 +188,7 @@ public class Menu {
 					
 					while(true) {
 						try {
-							System.out.println("(Visualizar)Digite o numero id da conta (0 -> Voltar): ");
+							System.out.println("\n(Visualizar)Digite o numero id da conta (0 -> Voltar): ");
 							id = input.nextInt();
 							input.nextLine();
 							
@@ -217,6 +218,7 @@ public class Menu {
 					throw new Exception("Opcao inputada nao existe");
 				}
 			} catch(Exception e) {e.printStackTrace();}
+			System.out.println();
 		}
 	}
 
@@ -229,12 +231,12 @@ public class Menu {
 		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		
-		System.out.println("Digite o nome do titular: ");
+		System.out.println("\nDigite o nome do titular: ");
 		titular = input.nextLine();
 		
 		while(true) { //Validar cpf
 			try {
-				System.out.println("Digite o CPF (no formato 000.000.000-00): ");
+				System.out.println("\nDigite o CPF (no formato 000.000.000-00): ");
 				cpf = input.nextLine();
 				
 				if(!verificarCPF(cpf)) 
@@ -246,7 +248,7 @@ public class Menu {
 		}
 		while(true) { //Validar senha
 			try {
-				System.out.println("Crie uma senha (no minimo 4 caracteres): ");
+				System.out.println("\nCrie uma senha (no minimo 4 caracteres): ");
 				senha = input.nextLine();
 				
 				if(senha.length() < 4) 
@@ -260,7 +262,7 @@ public class Menu {
 		if(agencia == "2223-1") {
 			while(true) {
 				try {
-					System.out.println("Digite o limite de credito desta conta corrente: ");
+					System.out.println("\nDigite o limite de credito desta conta corrente: ");
 					limiteDC = input.nextDouble();
 					input.nextLine();
 					
@@ -271,7 +273,7 @@ public class Menu {
 		} else if(agencia == "2223-2") {
 			while(true) {
 				try {
-					System.out.println("Digite o aniversario desta conta poupanca: ");
+					System.out.println("\nDigite o aniversario desta conta poupanca: ");
 					bDay = input.nextInt();
 					input.nextLine();
 					
@@ -286,7 +288,6 @@ public class Menu {
 				} catch(Exception e) {System.err.println(e.getMessage());}
 			}
 		}
-		System.out.println("shit");
 	}
 	
 	private static ContaBancaria menuBuscarConta(int id, HashSet<ContaBancaria> contas) {
@@ -355,18 +356,19 @@ public class Menu {
 		while(true) {
 			try {
 				if(conta.getAgencia() == "2223-1") {
-					System.out.println("Opcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Limite de Credito\nOpcao [0] - Voltar");
+					System.out.println("\nOpcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Limite de Credito\nOpcao [0] - Voltar");
 				} else if(conta.getAgencia() == "2223-2") {
-					System.out.println("Opcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Aniversario\nOpcao [0] - Voltar");
+					System.out.println("\nOpcao [1] - Titular\nOpcao [2] - CPF\nOpcao [3] - Senha\nOpcao [4] - Aniversario\nOpcao [0] - Voltar");
 				} else {
 					System.err.println("Agencia nao encontrada?");
 					return false;
 				}
 				opt = input.nextInt();
+				input.nextLine();
 				
 				switch(opt) {
 				case 1:
-					System.out.println("Redigite o nome: ");
+					System.out.println("\nRedigite o nome: ");
 					var1 = input.nextLine();
 					
 					contas.remove(conta);
@@ -375,7 +377,7 @@ public class Menu {
 					
 					break;
 				case 2:
-					System.out.println("Redigite o CPF: ");
+					System.out.println("\nRedigite o CPF: ");
 					var1 = input.nextLine();
 					
 					if(!verificarCPF(var1)) 
@@ -387,7 +389,7 @@ public class Menu {
 					
 					break;
 				case 3:
-					System.out.println("Redigite a senha: ");
+					System.out.println("\nRedigite a senha: ");
 					var1 = input.nextLine();
 					
 					if(var1.length() < 4) 
@@ -401,16 +403,18 @@ public class Menu {
 				case 4:
 					
 					if(conta.getAgencia() == "2223-1") {
-						System.out.println("Redigite o limite de credito: ");
+						System.out.println("\nRedigite o limite de credito: ");
 						var2 = input.nextDouble();
+						input.nextLine();
 						
 						contas.remove(conta);
 						conta.setLimiteDeCredito(var2);
 						contas.add(conta);
 						
 					} else if(conta.getAgencia() == "2223-2") {
-						System.out.println("Redigite a Data de Aniversario: ");
+						System.out.println("\nRedigite a Data de Aniversario: ");
 						var3 = input.nextInt();
+						input.nextLine();
 						
 						contas.remove(conta);
 						conta.setbDay(var3);
@@ -422,7 +426,7 @@ public class Menu {
 					}
 					break;
 				case 0:
-					return false;
+					return true;
 				default:
 					throw new Exception("Opcao inputada nao existe");
 				}

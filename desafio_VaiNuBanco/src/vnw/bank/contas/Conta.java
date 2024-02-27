@@ -1,5 +1,7 @@
 package vnw.bank.contas;
 
+import java.text.DecimalFormat;
+
 public abstract class Conta {
 	
 	private int id; // gerado automaticamente, de 1 pra cima
@@ -61,9 +63,14 @@ public abstract class Conta {
 
 	@Override
 	public String toString() {
-		return "[id = " + id + ", agencia = " + agencia + ", titular = " + titular + ", cpf = " + cpf + ", senha = " + senha
-				+ ", saldo = " + saldo;
+		return "{id = " + id + " / agencia = " + agencia + " / titular = " + titular + " / cpf = " + cpf + " / senha = " + senha
+				+ " / saldo = " + twoDecimalsRounder(saldo);
 	}
 	
+	public String twoDecimalsRounder(double value) {
+		DecimalFormat f = new DecimalFormat("0.00");
+		String v = f.format(value);
+		return v;
+	}
 	
 }

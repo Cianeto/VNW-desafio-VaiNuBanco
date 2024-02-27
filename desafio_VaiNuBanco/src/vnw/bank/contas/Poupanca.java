@@ -43,7 +43,7 @@ public class Poupanca extends Conta implements ContaBancaria {
 	
 	@Override
 	public String toString() {
-		return "Conta Poupanca " + super.toString() + ", aniversario = " + bDay + "]";
+		return "Conta Poupanca " + super.toString() + " / aniversario = " + bDay + "}";
 	}
 	
 }
