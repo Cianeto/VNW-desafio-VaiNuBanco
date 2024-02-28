@@ -6,7 +6,7 @@ public interface ContaBancaria {
 	
 	void sacar(ContaBancaria conta, HashSet<ContaBancaria> contas);
 	void depositar(ContaBancaria conta, HashSet<ContaBancaria> contas);
-	void transferir(ContaBancaria contaC, HashSet<ContaBancaria> contas);
+	void transferir(ContaBancaria conta, HashSet<ContaBancaria> contas);
 	
 	int getId();
 	String getAgencia();
