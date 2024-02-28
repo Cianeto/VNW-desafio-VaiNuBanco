@@ -11,7 +11,8 @@ public class Menu {
 		int cont = 1; //A cada conta criada o contador aumenta em 1.
 		int opt;
 		int id;
-		boolean loop1 = true;
+		boolean loop1;
+		boolean loop2;
 		ContaBancaria conta = null;
 		String senha;
 		
@@ -59,6 +60,7 @@ public class Menu {
 				case 2: //Acessar Conta
 					
 					loop1 = true;
+					loop2 = true;
 					conta = null;
 					
 					while(true) {
@@ -73,7 +75,7 @@ public class Menu {
 								 	break;
 								}
 								
-								conta = menuBuscarConta(id, contas);
+								conta = buscarConta(id, contas);
 								
 								if(conta != null)
 									break;
@@ -85,8 +87,8 @@ public class Menu {
 							senha = input.nextLine();
 							
 							if(conta.getSenha().equals(senha) && conta.getAgencia().equals("2223-1")) {
-								while(true) {
-									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
+								while(loop2) {
+									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] - Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
 									input.nextLine();
 									
@@ -96,7 +98,7 @@ public class Menu {
 										
 										break;
 									case 2: //Depositar
-										corr.depositar(conta);
+										corr.depositar(conta, contas);
 										
 										break;
 									case 3: //Transferir
@@ -104,14 +106,16 @@ public class Menu {
 										
 										break;
 									case 0:
-										//return; quando ficar dentro de um metodo fara sentido
+										loop2 = false;
+										break;
 									default:
 										throw new Exception("Opcao inputada nao existe");
 									}
 								}
+								loop2 = true;
 							} else if(conta.getSenha().equals(senha) && conta.getAgencia().equals("2223-2")) {
-								while(true) {
-									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] Transferencia\nOpcao [0] - Voltar");
+								while(loop2) {
+									System.out.println("\nOpcao [1] - Saque\nOpcao [2] - Deposito\nOpcao [3] - Transferencia\nOpcao [0] - Voltar");
 									opt = input.nextInt();
 									input.nextLine();
 									
@@ -121,7 +125,7 @@ public class Menu {
 										
 										break;
 									case 2: //Depositar
-										poup.depositar(conta);
+										poup.depositar(conta, contas);
 										
 										break;
 									case 3: //Transferir
@@ -129,11 +133,13 @@ public class Menu {
 										
 										break;
 									case 0:
-										//return; quando ficar dentro de um metodo fara sentido
+										loop2 = false;
+										break;
 									default:
 										throw new Exception("Opcao inputada nao existe");
 									}
 								}
+								loop2 = true;
 							}
 								
 							throw new Exception("");
@@ -154,7 +160,7 @@ public class Menu {
 							if(id == 0)
 								break;
 							
-							if(menuEditarConta(menuBuscarConta(id, contas), contas) != false) 
+							if(menuEditarConta(buscarConta(id, contas), contas) != false) 
 								break;
 							
 							throw new Exception("Conta nao encontrada");
@@ -174,7 +180,7 @@ public class Menu {
 							if(id == 0)
 								break;
 							
-							if(menuRemoverConta(menuBuscarConta(id, contas), contas) != false) 
+							if(menuRemoverConta(buscarConta(id, contas), contas) != false) 
 								break;
 							
 							throw new Exception("Conta nao encontrada");
@@ -195,7 +201,7 @@ public class Menu {
 							if(id == 0)
 								break;
 							
-							conta = menuBuscarConta(id, contas);
+							conta = buscarConta(id, contas);
 							
 							if(conta != null) {
 								System.out.println("\n"+conta.toString()+"\n");
@@ -290,7 +296,7 @@ public class Menu {
 		}
 	}
 	
-	private static ContaBancaria menuBuscarConta(int id, HashSet<ContaBancaria> contas) {
+	public static ContaBancaria buscarConta(int id, HashSet<ContaBancaria> contas) {
 		
 		try {
 			for(ContaBancaria account : contas) {

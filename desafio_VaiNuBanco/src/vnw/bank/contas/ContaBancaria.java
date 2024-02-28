@@ -5,7 +5,7 @@ import java.util.HashSet;
 public interface ContaBancaria {
 	
 	void sacar(ContaBancaria conta, HashSet<ContaBancaria> contas);
-	void depositar(ContaBancaria conta);
+	void depositar(ContaBancaria conta, HashSet<ContaBancaria> contas);
 	void transferir(ContaBancaria contaC, HashSet<ContaBancaria> contas);
 	
 	int getId();
@@ -21,5 +21,6 @@ public interface ContaBancaria {
 	void setSenha(String senha);
 	void setLimiteDeCredito(double limiteDeCredito);
 	void setbDay(int bDay);
+	void setSaldo(double saldo);
 	String toString();
 }
